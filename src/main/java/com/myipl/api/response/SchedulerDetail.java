@@ -1,17 +1,19 @@
 package com.myipl.api.response;
 
+import java.util.Date;
+
 public class SchedulerDetail {
-	private String date;
-	
+	private Date date;
+
 	private String match1;
 
 	private String match2;
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -30,8 +32,5 @@ public class SchedulerDetail {
 	public void setMatch2(String match2) {
 		this.match2 = match2;
 	}
-
-
-
 
 }

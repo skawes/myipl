@@ -2,6 +2,7 @@ package com.myipl.service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,24 +25,39 @@ public class LeaderboardService {
 	PlayerRepository playerRepository;
 	@Autowired
 	IPLMatchWinnerRepository iplMatchWinnerRepository;
+	@Autowired
+	PlayerService playerService;
 
 	private static final int FIXED_MAX_SCORE = 30;
 
 	public void computeLeaderBoard() {
 
 		LocalDate todayMatchDate = LocalDate.now(ZoneId.of("Asia/Kolkata")).minusDays(1);
-		IPLMatchWinner iplMatchWinner = iplMatchWinnerRepository.getIPLMatchWinnerForDate(todayMatchDate);
+		IPLMatchWinner iplMatchWinner = iplMatchWinnerRepository.findByMatchDate(todayMatchDate);
 		if (null == iplMatchWinner || ((null == iplMatchWinner.getMatch1Winner()
 				|| iplMatchWinner.getMatch1Winner().trim().isEmpty())
 				&& (null == iplMatchWinner.getMatch2Winner() || iplMatchWinner.getMatch2Winner().trim().isEmpty())))
 			return;
 
-		List<IPLGroup> groups = iplGroupRepository.getAllIPLGroup();
+		List<IPLGroup> groups = iplGroupRepository.findByStatusTrue();
 		if (null == groups || groups.isEmpty())
 			return;
 
 		for (IPLGroup group : groups) {
-			List<PredictionDetail> playersPredictions = playerRepository.getPlayersByGroup(group.getId());
+			List<Object> playersPredictionsFromDb = playerRepository.findPlayersByGroup(group.getId());
+			List<PredictionDetail> playersPredictions = new ArrayList<PredictionDetail>();
+			for (Object object : playersPredictionsFromDb) {
+				PredictionDetail predictionDetail = new PredictionDetail();
+				Object[] detail = (Object[]) object;
+				if (detail[0] != null)
+					predictionDetail.setMatch1(String.valueOf(detail[0]));
+				if (detail[1] != null)
+					predictionDetail.setMatch2(String.valueOf(detail[1]));
+				predictionDetail.setUserId(String.valueOf(detail[2]));
+				if (detail[3] != null)
+					predictionDetail.setPoints(Double.valueOf(String.valueOf(detail[3])));
+				playersPredictions.add(predictionDetail);
+			}
 			if (null == playersPredictions || playersPredictions.isEmpty())
 				continue;
 
@@ -90,7 +106,7 @@ public class LeaderboardService {
 			}
 
 			// save new points
-			playerRepository.savePoints(playersPredictions);
+			playerService.savePoints(playersPredictions);
 
 		}
 

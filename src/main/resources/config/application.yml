@@ -1,0 +1,18 @@
+server:
+  servlet:
+    context-path: /myipl
+    
+  
+  
+  
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/myipl?autoReconnect=true&rewriteBatchedStatements=true&createDatabaseIfNotExist=true
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  

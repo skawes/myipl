@@ -37,13 +37,15 @@ public class PlayerController {
 		APIReponse response = null;
 		try {
 			logger.info("Register player : " + registerRequest.getContactNumber());
-			playerService.registerPlayer(registerRequest);
-			response = new APIReponse();
+			if (registerRequest.getUserId() == null || registerRequest.getUserId().isEmpty()
+					|| registerRequest.getPassword() == null || registerRequest.getPassword().isEmpty())
+				return new APIReponse("failure", "username or password cannot be empty");
+			response = playerService.registerPlayer(registerRequest);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			response = new APIReponse();
 			response.setAction("failure");
-			response.setErrorMessage(e.getMessage());
+			response.setMessage(e.getMessage());
 		}
 
 		return response;
@@ -59,7 +61,7 @@ public class PlayerController {
 		} catch (Exception e) {
 			response = new LoginResponse();
 			response.setAction("failure");
-			response.setErrorMessage(e.getMessage());
+			response.setMessage(e.getMessage());
 		}
 
 		return response;
@@ -70,12 +72,12 @@ public class PlayerController {
 		APIReponse response = null;
 		try {
 
-			response = playerService.predictionPlayer(predictionRequest);
+			response = playerService.savePredictionOfPlayer(predictionRequest);
 
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
-			response.setErrorMessage(e.getMessage());
+			response.setMessage(e.getMessage());
 		}
 
 		return response;
@@ -89,19 +91,11 @@ public class PlayerController {
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
-			response.setErrorMessage(e.getMessage());
+			response.setMessage(e.getMessage());
 		}
 		return response;
 	}
 
-	/*
-	 * @RequestMapping(value = "/leaderboard", produces = "application/json",
-	 * method = RequestMethod.GET) public APIReponse getLeaderboard() {
-	 * APIReponse response = null; try { response =
-	 * playerService.getLeaderboard(); } catch (Exception e) { response = new
-	 * APIReponse(); response.setAction("failure");
-	 * response.setErrorMessage(e.getMessage()); } return response; }
-	 */
 	@RequestMapping(value = "/scheduler", produces = "application/json", method = RequestMethod.GET)
 	public APIReponse getScheduler() {
 		APIReponse response = null;
@@ -110,11 +104,11 @@ public class PlayerController {
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
-			response.setErrorMessage(e.getMessage());
+			response.setMessage(e.getMessage());
 		}
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/compute-leaderboard", produces = "application/json", method = RequestMethod.GET)
 	public void computeLeaderBoard() {
 		try {
@@ -123,7 +117,7 @@ public class PlayerController {
 			logger.error("Exception executing LeaderBoard Job : " + e.getMessage(), e);
 		}
 	}
-	
+
 	@RequestMapping(value = "/leaderboard/{userId}", produces = "application/json", method = RequestMethod.GET)
 	public APIReponse getLeaderBoard(@PathVariable("userId") String userId) {
 		APIReponse response = null;
@@ -132,7 +126,7 @@ public class PlayerController {
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
-			response.setErrorMessage(e.getMessage());
+			response.setMessage(e.getMessage());
 		}
 		return response;
 	}

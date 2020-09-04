@@ -2,40 +2,39 @@ package com.myipl.domain.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-//@Entity
-//@Table(name = "players")
+@Entity
 public class Player implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-//	@Column(name = "p_name")
-	private String name;
-//	@Column(name = "p_username")
-	private String userId;
-//	@Column(name = "p_password")
-	private String password;
-//	@Column(name = "p_contact")
-	private String contactNumber;
-//	@Column(name = "p_group_id")
-	private int groupId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	public int getId() {
+	private String name;
+
+	private String userId;
+
+	private String password;
+
+	private String contactNumber;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "groupId")
+	private IPLGroup groupId;
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -72,12 +71,20 @@ public class Player implements Serializable {
 		this.contactNumber = contactNumber;
 	}
 
-	public int getGroupId() {
+	public IPLGroup getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(int groupId) {
+	public void setGroupId(IPLGroup groupId) {
 		this.groupId = groupId;
 	}
+
+//	public Long getGroupId() {
+//		return groupId;
+//	}
+//
+//	public void setGroupId(Long groupId) {
+//		this.groupId = groupId;
+//	}
 
 }

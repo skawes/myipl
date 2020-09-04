@@ -11,7 +11,17 @@ public class APIReponse implements Serializable {
 
 	private String action = "success";
 
-	private String errorMessage;
+	private String message;
+
+	public APIReponse() {
+		super();
+	}
+
+	public APIReponse(String action, String message) {
+		super();
+		this.action = action;
+		this.message = message;
+	}
 
 	public String getAction() {
 		return action;
@@ -21,12 +31,12 @@ public class APIReponse implements Serializable {
 		this.action = action;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }
