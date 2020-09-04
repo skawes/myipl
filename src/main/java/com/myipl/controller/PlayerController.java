@@ -20,6 +20,9 @@ import com.myipl.api.response.LoginResponse;
 import com.myipl.service.LeaderboardService;
 import com.myipl.service.PlayerService;
 
+import io.swagger.annotations.Api;
+
+@Api(tags = { "Player related apis" })
 @RestController
 @RequestMapping("/player")
 public class PlayerController {

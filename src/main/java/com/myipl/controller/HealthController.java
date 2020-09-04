@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.myipl.api.response.APIReponse;
 
+import io.swagger.annotations.Api;
+
+@Api(tags = { "Health check api" })
 @RestController
 public class HealthController {
 
