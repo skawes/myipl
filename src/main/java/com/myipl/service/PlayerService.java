@@ -180,7 +180,8 @@ public class PlayerService {
 				schedulerDetail.setDate(scheduler.getDate());
 				schedulerDetail.setMatch1(scheduler.getMatch1());
 				schedulerDetail.setMatch2(scheduler.getMatch2());
-				schedulerDetail.setWinner(scheduler.getWinner().toString());
+				if (null != scheduler.getWinner())
+					schedulerDetail.setWinner(scheduler.getWinner().toString());
 				schedulerDetails.add(schedulerDetail);
 			}
 			response.setScheduler(schedulerDetails);
