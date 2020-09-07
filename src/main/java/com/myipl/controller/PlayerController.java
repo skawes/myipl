@@ -86,11 +86,11 @@ public class PlayerController {
 		return response;
 	}
 
-	@RequestMapping(value = "/predictions", produces = "application/json", method = RequestMethod.GET)
-	public APIReponse getPredictions() {
+	@RequestMapping(value = "/predictions/{userId}", produces = "application/json", method = RequestMethod.GET)
+	public APIReponse getPredictions(@PathVariable("userId") String userId) {
 		APIReponse response = null;
 		try {
-			response = playerService.getPredictions();
+			response = playerService.getPredictions(userId);
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");

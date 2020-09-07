@@ -1,13 +1,15 @@
 package com.myipl.domain.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.myipl.enums.IPLTeamName;
 
 @Entity
 public class Scheduler {
@@ -15,12 +17,14 @@ public class Scheduler {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	private LocalDate date;
 
 	private String match1;
 
 	private String match2;
+
+	@Enumerated(EnumType.STRING)
+	private IPLTeamName winner;
 
 	public Long getId() {
 		return id;
@@ -28,14 +32,6 @@ public class Scheduler {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getMatch1() {
@@ -46,12 +42,28 @@ public class Scheduler {
 		this.match1 = match1;
 	}
 
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public String getMatch2() {
 		return match2;
 	}
 
 	public void setMatch2(String match2) {
 		this.match2 = match2;
+	}
+
+	public IPLTeamName getWinner() {
+		return winner;
+	}
+
+	public void setWinner(IPLTeamName winner) {
+		this.winner = winner;
 	}
 
 }

@@ -141,18 +141,20 @@ public class PlayerService {
 		return response;
 	}
 
-	public PredictionResponse getPredictions() {
+	public PredictionResponse getPredictions(String userId) {
 		PredictionResponse response = null;
 		try {
 			response = new PredictionResponse();
 			List<PredictionDetail> predictions = new ArrayList<PredictionDetail>();
-			List<PlayerPrediction> predictionsFromDB = playerPredictionRepository.findAll();
-			for (PlayerPrediction playerPrediction : predictionsFromDB) {
+			List<Object> predictionsFromDB = playerPredictionRepository.findPredictionsByGroup(userId);
+			for (Object playerPrediction : predictionsFromDB) {
 				PredictionDetail predictionDetail = new PredictionDetail();
-				predictionDetail.setUserId(playerPrediction.getUserId());
-				predictionDetail.setMatch1(playerPrediction.getMatch1());
-				predictionDetail.setMatch2(playerPrediction.getMatch2());
-				predictionDetail.setPoints(playerPrediction.getPoints());
+				Object[] detail = (Object[]) playerPrediction;
+				predictionDetail.setUserId(String.valueOf(detail[0]));
+				if (detail[1] != null)
+					predictionDetail.setMatch1(String.valueOf(detail[1]));
+				if (detail[2] != null)
+					predictionDetail.setMatch2(String.valueOf(detail[2]));
 				predictions.add(predictionDetail);
 			}
 			response.setPredictions(predictions);
@@ -178,6 +180,7 @@ public class PlayerService {
 				schedulerDetail.setDate(scheduler.getDate());
 				schedulerDetail.setMatch1(scheduler.getMatch1());
 				schedulerDetail.setMatch2(scheduler.getMatch2());
+				schedulerDetail.setWinner(scheduler.getWinner().toString());
 				schedulerDetails.add(schedulerDetail);
 			}
 			response.setScheduler(schedulerDetails);
