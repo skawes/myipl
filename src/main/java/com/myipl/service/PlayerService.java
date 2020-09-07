@@ -64,7 +64,7 @@ public class PlayerService {
 		playerPrediction.setUserId(registerRequest.getUserId());
 		playerPredictionRepository.save(playerPrediction);
 		playerRepository.save(player);
-		return new APIReponse("succcess", "Registration successful");
+		return new APIReponse("success", "Registration successful");
 	}
 
 	public LoginResponse loginPlayer(LoginRequest loginRequest) {
