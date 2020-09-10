@@ -112,15 +112,6 @@ public class PlayerController {
 		return response;
 	}
 
-	@RequestMapping(value = "/compute-leaderboard", produces = "application/json", method = RequestMethod.GET)
-	public void computeLeaderBoard() {
-		try {
-			leaderboardService.computeLeaderBoard();
-		} catch (Exception e) {
-			logger.error("Exception executing LeaderBoard Job : " + e.getMessage(), e);
-		}
-	}
-
 	@RequestMapping(value = "/leaderboard/{userId}", produces = "application/json", method = RequestMethod.GET)
 	public APIReponse getLeaderBoard(@PathVariable("userId") String userId) {
 		APIReponse response = null;
