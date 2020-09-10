@@ -1,12 +1,10 @@
-package com.myipl.api.response;
+package com.myipl.api.request;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class IPLMatchWinnerResponse extends APIReponse {
+public class IPLMatchWinnerRequest implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String match1Winner;

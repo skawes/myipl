@@ -106,7 +106,6 @@ public class LeaderboardService {
 					}
 
 				}
-
 			}
 
 			// match 2
@@ -127,10 +126,10 @@ public class LeaderboardService {
 					}
 
 				}
-
 			}
 			// save new points
 			predictionService.savePoints(playersPredictions);
 		}
 	}
+	
 }

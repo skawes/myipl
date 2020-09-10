@@ -3,8 +3,6 @@ package com.myipl.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,8 +27,6 @@ import io.swagger.annotations.Api;
 @RequestMapping("/player")
 public class PlayerController {
 
-	private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
-
 	@Autowired
 	private PlayerService playerService;
 	@Autowired
@@ -45,13 +41,11 @@ public class PlayerController {
 			HttpServletResponse httResponse) {
 		APIReponse response = null;
 		try {
-			logger.info("Register player : " + registerRequest.getContactNumber());
 			if (registerRequest.getUserId() == null || registerRequest.getUserId().isEmpty()
 					|| registerRequest.getPassword() == null || registerRequest.getPassword().isEmpty())
 				return new APIReponse("failure", "username or password cannot be empty");
 			response = playerService.registerPlayer(registerRequest);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
 			response = new APIReponse();
 			response.setAction("failure");
 			response.setMessage(e.getMessage());
@@ -140,4 +134,5 @@ public class PlayerController {
 		}
 		return response;
 	}
+	
 }
