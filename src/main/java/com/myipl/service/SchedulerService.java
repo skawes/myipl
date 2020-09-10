@@ -5,12 +5,15 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myipl.api.response.SchedulerDetail;
 import com.myipl.api.response.SchedulerResponse;
 import com.myipl.domain.entity.Scheduler;
+import com.myipl.enums.IPLTeamName;
 import com.myipl.repository.SchedulerRepository;
 
 @Service
@@ -66,6 +69,13 @@ public class SchedulerService {
 			response.setMessage(e.getMessage());
 		}
 		return response;
+	}
+	
+	@Transactional
+	public void updateWinnerForScheduler(LocalDate date, String matchWinner) {
+		Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch(date, matchWinner);
+		schedulerDetail.setWinner(IPLTeamName.valueOf(matchWinner));
+		schedulerRepository.save(schedulerDetail);
 	}
 	
 }
