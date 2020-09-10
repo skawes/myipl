@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myipl.api.response.IPLLeaderBoardResponse;
+import com.myipl.api.response.LeaderBoardDetail;
 import com.myipl.api.response.PredictionDetail;
 import com.myipl.domain.entity.IPLGroup;
 import com.myipl.domain.entity.IPLMatchWinner;
@@ -26,12 +28,35 @@ public class LeaderboardService {
 	@Autowired
 	private IPLMatchWinnerRepository iplMatchWinnerRepository;
 	@Autowired
-	private PlayerService playerService;
+	private PredictionService predictionService;
 
 	private static final int FIXED_MAX_SCORE = 30;
+	
+	public IPLLeaderBoardResponse getLeaderBoard(String userId) {
+		IPLLeaderBoardResponse response = null;
+		try {
+			response = new IPLLeaderBoardResponse();
+			List<LeaderBoardDetail> leaderBoardDetails = new ArrayList<LeaderBoardDetail>();
+			List<String[]> leaderBoardDetailsFromDb = playerRepository.getLeaderBoardDetailForGroup(userId);
+			int rank = 1;
+			for (String[] detail : leaderBoardDetailsFromDb) {
+				LeaderBoardDetail leaderBoardDetail = new LeaderBoardDetail();
+				leaderBoardDetail.setRank(rank);
+				leaderBoardDetail.setUserId(detail[0]);
+				leaderBoardDetail.setPoints(Double.valueOf(detail[1]));
+				leaderBoardDetails.add(leaderBoardDetail);
+				rank++;
+			}
+			response.setLeaderBoardDetails(leaderBoardDetails);
+		} catch (RuntimeException e) {
+			response = new IPLLeaderBoardResponse();
+			response.setAction("failure");
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
 
 	public void computeLeaderBoard() {
-
 		LocalDate todayMatchDate = LocalDate.now(ZoneId.of("Asia/Kolkata")).minusDays(1);
 		IPLMatchWinner iplMatchWinner = iplMatchWinnerRepository.findByMatchDate(todayMatchDate);
 		if (null == iplMatchWinner || ((null == iplMatchWinner.getMatch1Winner()
@@ -104,12 +129,8 @@ public class LeaderboardService {
 				}
 
 			}
-
 			// save new points
-			playerService.savePoints(playersPredictions);
-
+			predictionService.savePoints(playersPredictions);
 		}
-
 	}
-
 }

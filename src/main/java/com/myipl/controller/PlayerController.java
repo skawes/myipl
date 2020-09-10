@@ -19,6 +19,8 @@ import com.myipl.api.response.APIReponse;
 import com.myipl.api.response.LoginResponse;
 import com.myipl.service.LeaderboardService;
 import com.myipl.service.PlayerService;
+import com.myipl.service.PredictionService;
+import com.myipl.service.SchedulerService;
 
 import io.swagger.annotations.Api;
 
@@ -30,9 +32,13 @@ public class PlayerController {
 	private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
 	@Autowired
-	PlayerService playerService;
+	private PlayerService playerService;
 	@Autowired
-	LeaderboardService leaderboardService;
+	private SchedulerService schedulerService;
+	@Autowired
+	private LeaderboardService leaderboardService;
+	@Autowired
+	private PredictionService predictionService;
 
 	@RequestMapping(value = "/register", produces = "application/json", method = RequestMethod.POST)
 	public APIReponse registerPlayer(@RequestBody RegisterRequest registerRequest, HttpServletRequest httpRequest,
@@ -59,7 +65,6 @@ public class PlayerController {
 			HttpServletResponse httResponse) {
 		LoginResponse response = null;
 		try {
-
 			response = playerService.loginPlayer(loginRequest);
 		} catch (Exception e) {
 			response = new LoginResponse();
@@ -74,9 +79,7 @@ public class PlayerController {
 	public APIReponse predictionPlayer(@RequestBody PredictionRequest predictionRequest) {
 		APIReponse response = null;
 		try {
-
-			response = playerService.savePredictionOfPlayer(predictionRequest);
-
+			response = predictionService.savePredictionOfPlayer(predictionRequest);
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
@@ -90,7 +93,7 @@ public class PlayerController {
 	public APIReponse getPredictions(@PathVariable("userId") String userId) {
 		APIReponse response = null;
 		try {
-			response = playerService.getPredictions(userId);
+			response = predictionService.getPredictions(userId);
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
@@ -103,7 +106,7 @@ public class PlayerController {
 	public APIReponse getScheduler() {
 		APIReponse response = null;
 		try {
-			response = playerService.getScheduler();
+			response = schedulerService.getScheduler();
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
@@ -116,7 +119,7 @@ public class PlayerController {
 	public APIReponse schedulerForToday() {
 		APIReponse response = null;
 		try {
-			response = playerService.getSchedulerForToday();
+			response = schedulerService.getSchedulerForToday();
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
@@ -129,7 +132,7 @@ public class PlayerController {
 	public APIReponse getLeaderBoard(@PathVariable("userId") String userId) {
 		APIReponse response = null;
 		try {
-			response = playerService.getLeaderBoard(userId);
+			response = leaderboardService.getLeaderBoard(userId);
 		} catch (Exception e) {
 			response = new APIReponse();
 			response.setAction("failure");
