@@ -112,13 +112,17 @@ public class PlayerController {
 		return response;
 	}
 
-	@RequestMapping(value = "/compute-leaderboard", produces = "application/json", method = RequestMethod.GET)
-	public void computeLeaderBoard() {
+	@RequestMapping(value = "/schedulerForToday", produces = "application/json", method = RequestMethod.GET)
+	public APIReponse schedulerForToday() {
+		APIReponse response = null;
 		try {
-			leaderboardService.computeLeaderBoard();
+			response = playerService.getSchedulerForToday();
 		} catch (Exception e) {
-			logger.error("Exception executing LeaderBoard Job : " + e.getMessage(), e);
+			response = new APIReponse();
+			response.setAction("failure");
+			response.setMessage(e.getMessage());
 		}
+		return response;
 	}
 
 	@RequestMapping(value = "/leaderboard/{userId}", produces = "application/json", method = RequestMethod.GET)

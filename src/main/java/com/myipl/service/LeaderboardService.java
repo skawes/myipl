@@ -20,13 +20,13 @@ import com.myipl.repository.PlayerRepository;
 public class LeaderboardService {
 
 	@Autowired
-	IPLGroupRepository iplGroupRepository;
+	private IPLGroupRepository iplGroupRepository;
 	@Autowired
-	PlayerRepository playerRepository;
+	private PlayerRepository playerRepository;
 	@Autowired
-	IPLMatchWinnerRepository iplMatchWinnerRepository;
+	private IPLMatchWinnerRepository iplMatchWinnerRepository;
 	@Autowired
-	PlayerService playerService;
+	private PlayerService playerService;
 
 	private static final int FIXED_MAX_SCORE = 30;
 
