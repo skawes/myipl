@@ -1,6 +1,7 @@
 package com.myipl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.myipl.api.request.LoginRequest;
@@ -24,6 +25,9 @@ public class PlayerService {
 	@Autowired
 	private IPLGroupRepository iplGroupRepository;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	public APIReponse registerPlayer(RegisterRequest registerRequest) {
 		// validate group name;
 		if (null == registerRequest.getGroupName() || registerRequest.getGroupName().trim().isEmpty()) {
@@ -38,7 +42,7 @@ public class PlayerService {
 		Player player = new Player();
 		player.setName(registerRequest.getName());
 		player.setUserId(registerRequest.getUserId());
-		player.setPassword(registerRequest.getPassword());
+		player.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 		player.setContactNumber(registerRequest.getContactNumber());
 		player.setGroupId(iplGroup);
 		// Save the players entry in prediction table also
@@ -50,31 +54,26 @@ public class PlayerService {
 	}
 
 	public LoginResponse loginPlayer(LoginRequest loginRequest) {
-		LoginResponse response = null;
+		LoginResponse response = new LoginResponse();
 		try {
-			// step 1:
-			// TO DO validate user id and password cannot be null
-			/*
-			 * if(loginRequest.getUserId()==null) { response=new LoginResponse();
-			 * response.setAction("failure");
-			 * response.setErrorMessage("UserID cannot be null"); }
-			 */
+			if (loginRequest.getUserId() == null || loginRequest.getPassword() == null) {
+				response.setAction("failure");
+				response.setMessage("Username/password cannot be null");
+				return response;
+			}
 
 			// step 2 : retrieve and check if user exist
 			Player player = playerRepository.findByUserId(loginRequest.getUserId());
 			if (player == null) {
-				// TO DO return with error that user does not exist
-				response = new LoginResponse();
 				response.setAction("failure");
 				response.setMessage("UserID does not exist");
 			}
 
 			// step 3 : is password given correct
-			else if (!loginRequest.getPassword().equals(player.getPassword())) {
+			else if (!passwordEncoder.matches(loginRequest.getPassword(), player.getPassword())) {
 				response = new LoginResponse();
 				response.setAction("failure");
 				response.setMessage("Incorrect password");
-
 			}
 
 			else// step 4 : here means user exist and password matches so return
@@ -92,5 +91,5 @@ public class PlayerService {
 		}
 		return response;
 	}
-	
+
 }
