@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myipl.api.request.IPLMatchWinnerRequest;
+import com.myipl.api.request.LoginRequest;
 import com.myipl.api.request.SchedulerRequest;
 import com.myipl.api.response.APIReponse;
 import com.myipl.service.IPLMatchWinnerService;
 import com.myipl.service.LeaderboardService;
+import com.myipl.service.PlayerService;
 import com.myipl.service.SchedulerService;
 
 import io.swagger.annotations.Api;
@@ -31,6 +33,8 @@ public class AdminController {
 	private LeaderboardService leaderboardService;
 	@Autowired
 	private SchedulerService schedulerService;
+	@Autowired
+	private PlayerService playerService;
 
 	@ApiOperation(value = "Save winners for the day,enter the match date in yyyy-mm-dd")
 	@PostMapping(value = "/saveIPLMatchWinner", produces = "application/json")
@@ -56,6 +60,18 @@ public class AdminController {
 		return apiReponse;
 	}
 
+	@ApiOperation(value = "Change Password")
+	@PostMapping(value = "/changePassword", produces = "application/json")
+	public APIReponse updateMatchDetails(@RequestBody LoginRequest loginRequest) {
+		APIReponse apiReponse = null;
+		try {
+			apiReponse = playerService.changePassword(loginRequest);
+		} catch (Exception e) {
+			apiReponse = new APIReponse("failure", e.getMessage());
+		}
+		return apiReponse;
+	}
+
 	@ApiOperation(value = "If cron job is not working compute leaderboard manually")
 	@GetMapping(value = "/compute-leaderboard", produces = "application/json")
 	public void computeLeaderBoard() {
@@ -65,4 +81,5 @@ public class AdminController {
 			logger.error("Exception executing LeaderBoard Job : " + e.getMessage(), e);
 		}
 	}
+	
 }

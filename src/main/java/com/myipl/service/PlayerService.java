@@ -1,5 +1,7 @@
 package com.myipl.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class PlayerService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	@Transactional
 	public APIReponse registerPlayer(RegisterRequest registerRequest) {
 		// validate group name;
 		if (null == registerRequest.getGroupName() || registerRequest.getGroupName().trim().isEmpty()) {
@@ -92,4 +95,24 @@ public class PlayerService {
 		return response;
 	}
 
+	@Transactional
+	public APIReponse changePassword(LoginRequest loginRequest) {
+		APIReponse response = new APIReponse();
+		try {
+			Player player = playerRepository.findByUserId(loginRequest.getUserId());
+			if (null != player) {
+				player.setPassword(passwordEncoder.encode(loginRequest.getPassword()));
+				response.setMessage("Password changed");
+				playerRepository.save(player);
+			} else {
+				response.setMessage("UserID does not exist");
+			}
+		} catch (RuntimeException e) {
+			response = new LoginResponse();
+			response.setAction("failure");
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+	
 }
