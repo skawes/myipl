@@ -14,5 +14,7 @@ public interface SchedulerRepository extends JpaRepository<Scheduler, Long> {
 	
 	@Query(value = "SELECT * FROM scheduler s WHERE date=:date AND (match1=:teamName OR match2=:teamName)", nativeQuery = true)
 	public Scheduler findByDateAndMatch(LocalDate date, String teamName);
+	
+	public Scheduler findByDateAndMatch1AndMatch2(LocalDate date, String team1, String team2);
 
 }

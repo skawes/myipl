@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myipl.api.request.SchedulerRequest;
+import com.myipl.api.response.APIReponse;
 import com.myipl.api.response.SchedulerDetail;
 import com.myipl.api.response.SchedulerResponse;
 import com.myipl.domain.entity.Scheduler;
@@ -77,5 +79,27 @@ public class SchedulerService {
 		schedulerDetail.setWinner(IPLTeamName.valueOf(matchWinner));
 		schedulerRepository.save(schedulerDetail);
 	}
-	
+
+	@Transactional
+	public APIReponse updateMatchDetails(SchedulerRequest schedulerRequest) {
+		APIReponse response = new APIReponse();
+		try {
+			Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch1AndMatch2(
+					schedulerRequest.getOldMatchDate(), schedulerRequest.getOldMatch1(),
+					schedulerRequest.getOldMatch2());
+			if (null == schedulerDetail)
+				schedulerDetail = new Scheduler();
+			schedulerDetail.setDate(schedulerRequest.getNewMatchDate());
+			schedulerDetail.setMatch1(schedulerRequest.getNewMatch1());
+			schedulerDetail.setMatch2(schedulerRequest.getNewMatch2());
+			schedulerRepository.save(schedulerDetail);
+			response.setMessage("Fixture Updated");
+		} catch (RuntimeException e) {
+			response = new SchedulerResponse();
+			response.setAction("failure");
+			response.setMessage(e.getMessage());
+		}
+		return response;
+	}
+
 }

@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myipl.api.request.IPLMatchWinnerRequest;
+import com.myipl.api.request.SchedulerRequest;
 import com.myipl.api.response.APIReponse;
 import com.myipl.service.IPLMatchWinnerService;
 import com.myipl.service.LeaderboardService;
+import com.myipl.service.SchedulerService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,8 @@ public class AdminController {
 	private IPLMatchWinnerService iplMatchWinnerService;
 	@Autowired
 	private LeaderboardService leaderboardService;
+	@Autowired
+	private SchedulerService schedulerService;
 
 	@ApiOperation(value = "Save winners for the day,enter the match date in yyyy-mm-dd")
 	@PostMapping(value = "/saveIPLMatchWinner", produces = "application/json")
@@ -38,7 +42,18 @@ public class AdminController {
 			apiReponse = new APIReponse("failure", e.getMessage());
 		}
 		return apiReponse;
+	}
 
+	@ApiOperation(value = "Update fixture, enter the match date in \"yyyy-mm-dd\" or null if TBD")
+	@PostMapping(value = "/updateMatchDetails", produces = "application/json")
+	public APIReponse updateMatchDetails(@RequestBody SchedulerRequest schedulerRequest) {
+		APIReponse apiReponse = null;
+		try {
+			apiReponse = schedulerService.updateMatchDetails(schedulerRequest);
+		} catch (Exception e) {
+			apiReponse = new APIReponse("failure", e.getMessage());
+		}
+		return apiReponse;
 	}
 
 	@ApiOperation(value = "If cron job is not working compute leaderboard manually")
