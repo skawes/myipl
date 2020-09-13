@@ -73,7 +73,6 @@ public class PredictionService {
 				response.setMessage("Oops! Looks like you missed the deadline of 2:00 PM");
 			}
 		} catch (RuntimeException e) {
-			e.printStackTrace();
 			response = new APIReponse();
 			response.setAction("failure");
 			response.setMessage(e.getMessage());
