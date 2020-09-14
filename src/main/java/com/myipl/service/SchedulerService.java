@@ -72,7 +72,7 @@ public class SchedulerService {
 		}
 		return response;
 	}
-	
+
 	@Transactional
 	public void updateWinnerForScheduler(LocalDate date, String matchWinner) {
 		Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch1Or2(date, matchWinner);
@@ -82,24 +82,17 @@ public class SchedulerService {
 
 	@Transactional
 	public APIReponse updateMatchDetails(SchedulerRequest schedulerRequest) {
-		APIReponse response = new APIReponse();
-		try {
-			Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch1AndMatch2(
-					schedulerRequest.getOldMatchDate(), schedulerRequest.getOldMatch1(),
-					schedulerRequest.getOldMatch2());
-			if (null == schedulerDetail)
-				schedulerDetail = new Scheduler();
+		Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch1AndMatch2(schedulerRequest.getOldMatchDate(),
+				schedulerRequest.getOldMatch1(), schedulerRequest.getOldMatch2());
+		if (null != schedulerDetail) {
 			schedulerDetail.setDate(schedulerRequest.getNewMatchDate());
 			schedulerDetail.setMatch1(schedulerRequest.getNewMatch1());
 			schedulerDetail.setMatch2(schedulerRequest.getNewMatch2());
 			schedulerRepository.save(schedulerDetail);
-			response.setMessage("Fixture Updated");
-		} catch (RuntimeException e) {
-			response = new SchedulerResponse();
-			response.setAction("failure");
-			response.setMessage(e.getMessage());
+			return new APIReponse("success", "Fixture Updated");
 		}
-		return response;
+		return new APIReponse("failure", "No match on the given old match date");
+
 	}
 
 }

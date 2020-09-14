@@ -30,54 +30,42 @@ public class PredictionService {
 
 	@Transactional
 	public APIReponse savePredictionOfPlayer(PredictionRequest predictionRequest) {
-		APIReponse response = new APIReponse();
-		try {
-			if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(2, 0))) {
-				response.setAction("failure");
-				response.setMessage("Predictions will be enabled from 2:00 AM to 2:00 PM");
-			} else if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(14, 0))) {
-				PlayerPrediction predPlayer = playerPredictionRepository.findByUserId(predictionRequest.getUserId());
-				if (predPlayer != null) {
-					if ((predPlayer.getMatch1() == null || predPlayer.getMatch1().trim().isEmpty())
-							&& predictionRequest.getMatch1() != null) {
-						Scheduler scheduler = schedulerRepository.findByDateAndMatch1(
-								LocalDate.now(ZoneId.of("Asia/Kolkata")), predictionRequest.getMatch1());
-						if (scheduler != null) {
-							predPlayer.setMatch1(predictionRequest.getMatch1());
-							playerPredictionRepository.save(predPlayer);
-						} else {
-							response.setAction("failure");
-							response.setMessage("Invalid match or date");
-						}
-					} else if ((predPlayer.getMatch2() == null || predPlayer.getMatch2().trim().isEmpty())
-							&& predictionRequest.getMatch2() != null) {
-						Scheduler scheduler = schedulerRepository.findByDateAndMatch2(
-								LocalDate.now(ZoneId.of("Asia/Kolkata")), predictionRequest.getMatch2());
-						if (scheduler != null) {
-							predPlayer.setMatch2(predictionRequest.getMatch2());
-							playerPredictionRepository.save(predPlayer);
-						} else {
-							response.setAction("failure");
-							response.setMessage("Invalid match or date");
-						}
-					} else {
-						response.setAction("failure");
-						response.setMessage("Your prediction has already been recorded");
-					}
-				} else {
-					response.setAction("failure");
-					response.setMessage("UserID does not exist");
-				}
-			} else {
-				response.setAction("failure");
-				response.setMessage("Oops! Looks like you missed the deadline of 2:00 PM");
-			}
-		} catch (RuntimeException e) {
-			response = new APIReponse();
-			response.setAction("failure");
-			response.setMessage(e.getMessage());
+		if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(2, 0))) { // IF request comes before 2AM
+			return new APIReponse("failure", "Predictions will be enabled from 2:00 AM to 2:00 PM");
 		}
-		return response;
+		if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(14, 0))) { // If request before after 2pm
+			PlayerPrediction predPlayer = playerPredictionRepository.findByUserId(predictionRequest.getUserId());
+			if (predPlayer != null) {
+				if ((predPlayer.getMatch1() == null || predPlayer.getMatch1().trim().isEmpty())
+						&& predictionRequest.getMatch1() != null) {
+					return findByDateAndMatch(predPlayer, LocalDate.now(ZoneId.of("Asia/Kolkata")),
+							predictionRequest.getMatch1(), true);
+				} else if ((predPlayer.getMatch2() == null || predPlayer.getMatch2().trim().isEmpty())
+						&& predictionRequest.getMatch2() != null) {
+					return findByDateAndMatch(predPlayer, LocalDate.now(ZoneId.of("Asia/Kolkata")),
+							predictionRequest.getMatch2(), false);
+				}
+				return new APIReponse("failure", "Your prediction has already been recorded");
+			}
+			return new APIReponse("failure", "UserID does not exist");
+		}
+		return new APIReponse("failure", "Oops! Looks like you missed the deadline of 2:00 PM"); // If request comes
+																									// after 2pm
+	}
+
+	// set match prediction depending on the match1/match2
+	private APIReponse findByDateAndMatch(PlayerPrediction predPlayer, LocalDate date, String match, boolean isMatch1) {
+		Scheduler scheduler = isMatch1
+				? schedulerRepository.findByDateAndMatch1(LocalDate.now(ZoneId.of("Asia/Kolkata")), match)
+				: schedulerRepository.findByDateAndMatch2(LocalDate.now(ZoneId.of("Asia/Kolkata")), match);
+		if (scheduler == null)
+			return new APIReponse("failure", "Invalid match or date");
+		if (isMatch1)
+			predPlayer.setMatch1(match);
+		else
+			predPlayer.setMatch2(match);
+		playerPredictionRepository.save(predPlayer);
+		return new APIReponse("success", "Prediction Saved");
 	}
 
 	public PredictionResponse getPredictions(String userId) {

@@ -3,6 +3,8 @@ package com.myipl.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,9 +41,12 @@ public class AdminController {
 	private PlayerService playerService;
 	@Autowired
 	private IPLGroupService iplGroupService;
+	@Autowired
+	private CacheManager cacheManager;
 
 	@ApiOperation(value = "Save winners for the day,enter the match date in yyyy-mm-dd")
 	@PostMapping(value = "/saveIPLMatchWinner", produces = "application/json")
+	@CacheEvict(value = "scheduler", allEntries = true)
 	public APIReponse saveIPLMatchWinner(@RequestBody IPLMatchWinnerRequest iplMatchWinnerRequest) {
 		APIReponse apiReponse = null;
 		try {
@@ -54,6 +59,7 @@ public class AdminController {
 
 	@ApiOperation(value = "Update fixture, enter the match date in \"yyyy-mm-dd\" or null if TBD")
 	@PostMapping(value = "/updateMatchDetails", produces = "application/json")
+	@CacheEvict(value = "scheduler", allEntries = true)
 	public APIReponse updateMatchDetails(@RequestBody SchedulerRequest schedulerRequest) {
 		APIReponse apiReponse = null;
 		try {
@@ -66,7 +72,7 @@ public class AdminController {
 
 	@ApiOperation(value = "Change Password")
 	@PostMapping(value = "/changePassword", produces = "application/json")
-	public APIReponse updateMatchDetails(@RequestBody LoginRequest loginRequest) {
+	public APIReponse changePassword(@RequestBody LoginRequest loginRequest) {
 		APIReponse apiReponse = null;
 		try {
 			apiReponse = playerService.changePassword(loginRequest);
@@ -96,6 +102,13 @@ public class AdminController {
 		} catch (Exception e) {
 			logger.error("Exception executing LeaderBoard Job : " + e.getMessage(), e);
 		}
+	}
+
+	@ApiOperation(value = "Clear all caches. Created for backup only.")
+	@GetMapping(value = "/evictAllCaches", produces = "application/json")
+	public APIReponse evictAllCaches() {
+		cacheManager.getCacheNames().stream().forEach(cacheName -> cacheManager.getCache(cacheName).clear());
+		return new APIReponse();
 	}
 
 }

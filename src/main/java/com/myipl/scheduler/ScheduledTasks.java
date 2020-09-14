@@ -16,9 +16,9 @@ public class ScheduledTasks {
 	private LeaderboardService leaderboardService;
 
 	/**
-	 * This method is scheduled to compute the leader board at 2 a.m everyday
+	 * This method is scheduled to compute the leader board at 1:30 a.m everyday
 	 */
-	@Scheduled(cron = "0 0 2 * * ?")
+	@Scheduled(cron = "0 30 1 * * ?")
 	public void computeLeaderBoard() {
 		try {
 			leaderboardService.computeLeaderBoard();

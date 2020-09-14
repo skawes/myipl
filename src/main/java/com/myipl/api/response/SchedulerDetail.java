@@ -1,10 +1,13 @@
 package com.myipl.api.response;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class SchedulerDetail {
+public class SchedulerDetail implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
