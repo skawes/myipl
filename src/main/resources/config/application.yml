@@ -2,7 +2,7 @@ server:
   port: 80
   servlet:
     context-path: /myipl  #http://localhost:8080/myipl/swagger-ui.html
-    
+
 spring:
   datasource:
     username: root
