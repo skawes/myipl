@@ -17,6 +17,7 @@ import com.myipl.domain.entity.IPLMatchWinner;
 import com.myipl.repository.IPLGroupRepository;
 import com.myipl.repository.IPLMatchWinnerRepository;
 import com.myipl.repository.PlayerRepository;
+import com.myipl.utility.Constants;
 
 @Service
 public class LeaderboardService {
@@ -30,8 +31,8 @@ public class LeaderboardService {
 	@Autowired
 	private PredictionService predictionService;
 
-	private static final int FIXED_MAX_SCORE = 30;
-	
+	private static int FIXED_MAX_SCORE;
+
 	public IPLLeaderBoardResponse getLeaderBoard(String userId) {
 		IPLLeaderBoardResponse response = null;
 		try {
@@ -67,7 +68,7 @@ public class LeaderboardService {
 		List<IPLGroup> groups = iplGroupRepository.findByStatusTrue();
 		if (null == groups || groups.isEmpty())
 			return;
-
+		FIXED_MAX_SCORE = getPointsByMatch(todayMatchDate);
 		for (IPLGroup group : groups) {
 			List<Object> playersPredictionsFromDb = playerRepository.findPlayersByGroup(group.getId());
 			List<PredictionDetail> playersPredictions = new ArrayList<PredictionDetail>();
@@ -131,5 +132,17 @@ public class LeaderboardService {
 			predictionService.savePoints(playersPredictions);
 		}
 	}
-	
+
+	private int getPointsByMatch(LocalDate todayMatchDate) {
+		int max_score = 30;
+		// for the league matches max_score is 30,if match is play offs then max_score
+		// is 100 and for finals max_score is 200
+		if (todayMatchDate.isAfter(LocalDate.parse(Constants.LAST_LEAGUE_MATCH))
+				&& todayMatchDate.isBefore(LocalDate.parse(Constants.FINAL_MATCH))) {
+			max_score = 100;
+		} else if (todayMatchDate.isEqual(LocalDate.parse(Constants.FINAL_MATCH)))
+			max_score = 200;
+		return max_score;
+	}
+
 }
