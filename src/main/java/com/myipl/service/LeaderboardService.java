@@ -68,7 +68,7 @@ public class LeaderboardService {
 		List<IPLGroup> groups = iplGroupRepository.findByStatusTrue();
 		if (null == groups || groups.isEmpty())
 			return;
-		FIXED_MAX_SCORE = getPointsByMatch(todayMatchDate);
+		FIXED_MAX_SCORE = getMaxScoreByMatchType(todayMatchDate);
 		for (IPLGroup group : groups) {
 			List<Object> playersPredictionsFromDb = playerRepository.findPlayersByGroup(group.getId());
 			List<PredictionDetail> playersPredictions = new ArrayList<PredictionDetail>();
@@ -133,7 +133,7 @@ public class LeaderboardService {
 		}
 	}
 
-	private int getPointsByMatch(LocalDate todayMatchDate) {
+	private int getMaxScoreByMatchType(LocalDate todayMatchDate) {
 		int max_score = 30;
 		// for the league matches max_score is 30,if match is play offs then max_score
 		// is 100 and for finals max_score is 200
