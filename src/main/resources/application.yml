@@ -1,21 +1,17 @@
 server:
-  port: 80
+  port: 8080
   servlet:
     context-path: /myipl  #http://localhost:8080/myipl/swagger-ui.html
 
 spring:
+  profiles:
+   active: dev
   datasource:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/myipl?autoReconnect=true&rewriteBatchedStatements=true&createDatabaseIfNotExist=true
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
-  cache:
-    type: redis
-  redis:
-    host: redis-17634.c241.us-east-1-4.ec2.cloud.redislabs.com
-    port: 17634
-    password: PZvHBAgMsp5cmSbHaelxXsyIDiQ4gcpt

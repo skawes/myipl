@@ -1,0 +1,9 @@
+spring :
+  cache:
+    type: redis
+  redis:
+    host: redis-17634.c241.us-east-1-4.ec2.cloud.redislabs.com
+    port: 17634
+    password: PZvHBAgMsp5cmSbHaelxXsyIDiQ4gcpt
+  jpa:
+    show-sql: false

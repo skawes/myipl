@@ -56,8 +56,8 @@ public class PredictionService {
 	// set match prediction depending on the match1/match2
 	private APIReponse findByDateAndMatch(PlayerPrediction predPlayer, LocalDate date, String match, boolean isMatch1) {
 		Scheduler scheduler = isMatch1
-				? schedulerRepository.findByDateAndMatch1(LocalDate.now(ZoneId.of("Asia/Kolkata")), match)
-				: schedulerRepository.findByDateAndMatch2(LocalDate.now(ZoneId.of("Asia/Kolkata")), match);
+				? schedulerRepository.findByDateAndMatch1OrMatch2(LocalDate.now(ZoneId.of("Asia/Kolkata")), match)
+				: schedulerRepository.findByDateAndMatch1OrMatch2(LocalDate.now(ZoneId.of("Asia/Kolkata")), match);
 		if (scheduler == null)
 			return new APIReponse("failure", "Invalid match or date");
 		if (isMatch1)

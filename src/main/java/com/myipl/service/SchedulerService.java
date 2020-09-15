@@ -75,7 +75,7 @@ public class SchedulerService {
 
 	@Transactional
 	public void updateWinnerForScheduler(LocalDate date, String matchWinner) {
-		Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch1Or2(date, matchWinner);
+		Scheduler schedulerDetail = schedulerRepository.findByDateAndMatch1OrMatch2(date, matchWinner);
 		schedulerDetail.setWinner(IPLTeamName.valueOf(matchWinner));
 		schedulerRepository.save(schedulerDetail);
 	}
