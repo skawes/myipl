@@ -1,5 +1,9 @@
 package com.myipl.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +24,7 @@ import com.myipl.service.LeaderboardService;
 import com.myipl.service.PlayerService;
 import com.myipl.service.PredictionService;
 import com.myipl.service.SchedulerService;
+import com.myipl.utility.Constants;
 
 import io.swagger.annotations.Api;
 
@@ -42,6 +47,9 @@ public class PlayerController {
 			HttpServletResponse httResponse) {
 		APIReponse response = null;
 		try {
+			// registration closes after 1 week of ipl start date
+			if (LocalDate.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalDate.parse(Constants.REGISTRATION_END_DATE)))
+				return new APIReponse("failure", "Sorry, registration closed");
 			if (registerRequest.getUserId() == null || registerRequest.getUserId().isEmpty()
 					|| registerRequest.getPassword() == null || registerRequest.getPassword().isEmpty())
 				return new APIReponse("failure", "username or password cannot be empty");
@@ -88,6 +96,10 @@ public class PlayerController {
 	public APIReponse getPredictions(@PathVariable("userId") String userId) {
 		APIReponse response = null;
 		try {
+			if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(14, 0))
+					&& LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.of(2, 0))) {
+				return new APIReponse("failure", "Predictions can be viewed after 14:00");
+			}
 			response = predictionService.getPredictions(userId);
 		} catch (Exception e) {
 			response = new APIReponse();
@@ -136,5 +148,5 @@ public class PlayerController {
 		}
 		return response;
 	}
-	
+
 }
