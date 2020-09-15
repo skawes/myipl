@@ -18,7 +18,7 @@ public class ScheduledTasks {
 	/**
 	 * This method is scheduled to compute the leader board at 1:30 a.m everyday
 	 */
-	@Scheduled(cron = "0 30 1 * * ?")
+	@Scheduled(cron = "0 30 1 * * ?", zone = "IST")
 	public void computeLeaderBoard() {
 		try {
 			leaderboardService.computeLeaderBoard();
@@ -26,4 +26,5 @@ public class ScheduledTasks {
 			logger.error("Exception executing LeaderBoard Job : " + e.getMessage(), e);
 		}
 	}
+
 }
