@@ -30,10 +30,10 @@ public class PredictionService {
 
 	@Transactional
 	public APIReponse savePredictionOfPlayer(PredictionRequest predictionRequest) {
-		if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(7, 30))) { // IF request comes before 2AM
+		if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(2, 0))) { // IF request comes before 2AM
 			return new APIReponse("failure", "Predictions will be enabled from 2:00 AM to 2:00 PM");
 		}
-		if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(19, 30))) { // If request before after 2pm
+		if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(14, 0))) { // If request before after 2pm
 			PlayerPrediction predPlayer = playerPredictionRepository.findByUserId(predictionRequest.getUserId());
 			if (predPlayer != null) {
 				if ((predPlayer.getMatch1() == null || predPlayer.getMatch1().trim().isEmpty())
