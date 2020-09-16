@@ -84,7 +84,7 @@ public class PredictionService {
 				predictions.add(predictionDetail);
 				response.setPredictions(predictions);
 				response.setAction("success");
-				response.setMessage("You can view only your prediction from 2:00 to 14:00");
+				response.setMessage("Prediction of all the group members will be visible from 14:00");
 				return response;
 			}
 			// send predictions of the whole group

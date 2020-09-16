@@ -134,8 +134,8 @@ public class LeaderboardService {
 
 				}
 			}
-			//save in the audit table before updating
-			eventAuditService.savePredictionEvent(playersPredictions,group.getId(),todayMatchDate);
+			// save in the audit table before updating
+			eventAuditService.savePredictionEvent(playersPredictions, group.getId(), todayMatchDate);
 			// save new points
 			predictionService.savePoints(playersPredictions);
 			logger.info("Scheduler computed :" + LocalDateTime.now());
