@@ -73,6 +73,21 @@ public class PredictionService {
 		try {
 			response = new PredictionResponse();
 			List<PredictionDetail> predictions = new ArrayList<PredictionDetail>();
+			// send prediction w.r.t userId
+			if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(14, 0))
+					&& LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.of(2, 0))) {
+				PlayerPrediction playerPrediction = playerPredictionRepository.findByUserId(userId);
+				PredictionDetail predictionDetail = new PredictionDetail();
+				predictionDetail.setUserId(playerPrediction.getUserId());
+				predictionDetail.setMatch1(playerPrediction.getMatch1());
+				predictionDetail.setMatch2(playerPrediction.getMatch2());
+				predictions.add(predictionDetail);
+				response.setPredictions(predictions);
+				response.setAction("success");
+				response.setMessage("You can view only your prediction from 2:00 to 14:00");
+				return response;
+			}
+			// send predictions of the whole group
 			List<Object> predictionsFromDB = playerPredictionRepository.findPredictionsByGroup(userId);
 			for (Object playerPrediction : predictionsFromDB) {
 				PredictionDetail predictionDetail = new PredictionDetail();
@@ -92,10 +107,6 @@ public class PredictionService {
 		}
 		return response;
 	}
-
-	/*
-	 * public void pointsUpdation() { int total=playerRepository.getLoosers(); }
-	 */
 
 	@Transactional
 	public void savePoints(List<PredictionDetail> predictionDetails) {

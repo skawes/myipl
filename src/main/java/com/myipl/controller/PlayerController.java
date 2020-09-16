@@ -1,7 +1,6 @@
 package com.myipl.controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,10 +95,6 @@ public class PlayerController {
 	public APIReponse getPredictions(@PathVariable("userId") String userId) {
 		APIReponse response = null;
 		try {
-			if (LocalTime.now(ZoneId.of("Asia/Kolkata")).isBefore(LocalTime.of(14, 0))
-					&& LocalTime.now(ZoneId.of("Asia/Kolkata")).isAfter(LocalTime.of(2, 0))) {
-				return new APIReponse("failure", "Predictions can be viewed after 14:00");
-			}
 			response = predictionService.getPredictions(userId);
 		} catch (Exception e) {
 			response = new APIReponse();

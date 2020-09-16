@@ -1,11 +1,14 @@
 package com.myipl.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,7 @@ import com.myipl.utility.Constants;
 
 @Service
 public class LeaderboardService {
+	private static final Logger logger = LoggerFactory.getLogger(LeaderboardService.class);
 
 	@Autowired
 	private IPLGroupRepository iplGroupRepository;
@@ -30,6 +34,8 @@ public class LeaderboardService {
 	private IPLMatchWinnerRepository iplMatchWinnerRepository;
 	@Autowired
 	private PredictionService predictionService;
+	@Autowired
+	private EventAuditService eventAuditService;
 
 	private static int FIXED_MAX_SCORE;
 
@@ -128,8 +134,11 @@ public class LeaderboardService {
 
 				}
 			}
+			//save in the audit table before updating
+			eventAuditService.savePredictionEvent(playersPredictions,group.getId(),todayMatchDate);
 			// save new points
 			predictionService.savePoints(playersPredictions);
+			logger.info("Scheduler computed :" + LocalDateTime.now());
 		}
 	}
 
