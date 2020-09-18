@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,7 @@ public class LeaderboardService {
 		return response;
 	}
 
+	@Transactional
 	public void computeLeaderBoard() {
 		LocalDate todayMatchDate = LocalDate.now(ZoneId.of("Asia/Kolkata")).minusDays(1);
 		IPLMatchWinner iplMatchWinner = iplMatchWinnerRepository.findByMatchDate(todayMatchDate);
@@ -111,7 +114,6 @@ public class LeaderboardService {
 							playerPD.setPoints(playerPD.getPoints() - FIXED_MAX_SCORE);
 						}
 					}
-
 				}
 			}
 
@@ -131,14 +133,13 @@ public class LeaderboardService {
 							playerPD.setPoints(playerPD.getPoints() - FIXED_MAX_SCORE);
 						}
 					}
-
 				}
 			}
-			//save in the audit table before updating
-			eventAuditService.savePredictionEvent(playersPredictions,group.getId(),todayMatchDate);
+			// save in the audit table before updating
+			eventAuditService.savePredictionEvent(playersPredictions, group.getId(), todayMatchDate);
 			// save new points
 			predictionService.savePoints(playersPredictions);
-			logger.info("Scheduler computed :" + LocalDateTime.now());
+			logger.info("Leaderboard computed for :" + "groupName : " + group.getGroupName() + LocalDateTime.now());
 		}
 	}
 

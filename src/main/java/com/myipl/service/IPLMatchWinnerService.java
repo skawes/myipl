@@ -10,11 +10,13 @@ import com.myipl.repository.IPLMatchWinnerRepository;
 
 @Service
 public class IPLMatchWinnerService {
-	
+
 	@Autowired
 	private IPLMatchWinnerRepository iplMatchWinnerRepository;
 	@Autowired
 	private SchedulerService schedulerService;
+	@Autowired
+	private LeaderboardService leaderboardService;
 
 	public APIReponse saveMatchWinnerDetails(IPLMatchWinnerRequest iplMatchWinnerRequest) {
 		String message = null;
@@ -22,14 +24,14 @@ public class IPLMatchWinnerService {
 		if (iplMatchWinner != null) {
 			iplMatchWinner.setMatch1Winner(iplMatchWinnerRequest.getMatch1Winner());
 			iplMatchWinner.setMatch2Winner(iplMatchWinnerRequest.getMatch2Winner());
-			iplMatchWinnerRepository.save(iplMatchWinner);
+			iplMatchWinnerRepository.saveAndFlush(iplMatchWinner);
 			message = "Match winner updated";
 		} else {
 			iplMatchWinner = new IPLMatchWinner();
 			iplMatchWinner.setMatchDate(iplMatchWinnerRequest.getMatchDate());
 			iplMatchWinner.setMatch1Winner(iplMatchWinnerRequest.getMatch1Winner());
 			iplMatchWinner.setMatch2Winner(iplMatchWinnerRequest.getMatch2Winner());
-			iplMatchWinnerRepository.save(iplMatchWinner);
+			iplMatchWinnerRepository.saveAndFlush(iplMatchWinner);
 			message = "Match winner saved";
 		}
 		schedulerService.updateWinnerForScheduler(iplMatchWinnerRequest.getMatchDate(),
@@ -37,7 +39,11 @@ public class IPLMatchWinnerService {
 		if (null != iplMatchWinnerRequest.getMatch2Winner())
 			schedulerService.updateWinnerForScheduler(iplMatchWinnerRequest.getMatchDate(),
 					iplMatchWinner.getMatch2Winner());
+		// call the compute leaderboard after the match winners are set if the flag is
+		// true
+		if (iplMatchWinnerRequest.isComputeLeaderboard())
+			leaderboardService.computeLeaderBoard();
 		return new APIReponse("success", message);
 	}
-	
+
 }

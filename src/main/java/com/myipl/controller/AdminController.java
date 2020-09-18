@@ -108,6 +108,7 @@ public class AdminController {
 	@GetMapping(value = "/evictAllCaches", produces = "application/json")
 	public APIReponse evictAllCaches() {
 		cacheManager.getCacheNames().stream().forEach(cacheName -> cacheManager.getCache(cacheName).clear());
+		logger.info("All the caches evicted");
 		return new APIReponse();
 	}
 

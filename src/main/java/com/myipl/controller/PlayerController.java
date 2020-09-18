@@ -6,6 +6,8 @@ import java.time.ZoneId;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +33,7 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
-
+	private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
 	@Autowired
 	private PlayerService playerService;
 	@Autowired
@@ -54,6 +56,7 @@ public class PlayerController {
 				return new APIReponse("failure", "username or password cannot be empty");
 			response = playerService.registerPlayer(registerRequest);
 		} catch (Exception e) {
+			logger.error("Registration error: " + e.getMessage());
 			response = new APIReponse();
 			response.setAction("failure");
 			response.setMessage(e.getMessage());
@@ -69,6 +72,7 @@ public class PlayerController {
 		try {
 			response = playerService.loginPlayer(loginRequest);
 		} catch (Exception e) {
+			logger.error("Login error: " + e.getMessage());
 			response = new LoginResponse();
 			response.setAction("failure");
 			response.setMessage(e.getMessage());
@@ -83,6 +87,7 @@ public class PlayerController {
 		try {
 			response = predictionService.savePredictionOfPlayer(predictionRequest);
 		} catch (Exception e) {
+			logger.error("Save prediction error: " + e.getMessage());
 			response = new APIReponse();
 			response.setAction("failure");
 			response.setMessage(e.getMessage());

@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ import com.myipl.repository.SchedulerRepository;
 
 @Service
 public class PredictionService {
+	private static final Logger logger = LoggerFactory.getLogger(PredictionService.class);
 
 	@Autowired
 	private PlayerPredictionRepository playerPredictionRepository;
@@ -65,6 +68,7 @@ public class PredictionService {
 		else
 			predPlayer.setMatch2(match);
 		playerPredictionRepository.save(predPlayer);
+		logger.info("Prediction saved " + predPlayer.getUserId());
 		return new APIReponse("success", "Prediction Saved");
 	}
 

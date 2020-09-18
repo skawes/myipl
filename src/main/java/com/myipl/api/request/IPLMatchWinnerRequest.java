@@ -13,6 +13,8 @@ public class IPLMatchWinnerRequest implements Serializable {
 
 	private LocalDate matchDate;
 
+	private boolean isComputeLeaderboard=false;
+
 	public String getMatch1Winner() {
 		return match1Winner;
 	}
@@ -35,6 +37,14 @@ public class IPLMatchWinnerRequest implements Serializable {
 
 	public void setMatchDate(LocalDate matchDate) {
 		this.matchDate = matchDate;
+	}
+
+	public boolean isComputeLeaderboard() {
+		return isComputeLeaderboard;
+	}
+
+	public void setComputeLeaderboard(boolean isComputeLeaderboard) {
+		this.isComputeLeaderboard = isComputeLeaderboard;
 	}
 
 }

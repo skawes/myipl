@@ -1,0 +1,13 @@
+2020-09-18 17:54:28,069 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 10276 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
+2020-09-18 17:54:28,075 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
+2020-09-18 17:54:28,076 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
+2020-09-18 17:54:36,474 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.232 seconds (JVM running for 10.902)
+2020-09-18 17:54:44,740 INFO com.myipl.controller.AdminController [http-nio-8080-exec-2] All the caches evicted
+2020-09-18 20:20:22,851 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 9704 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
+2020-09-18 20:20:22,857 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
+2020-09-18 20:20:22,858 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
+2020-09-18 20:20:31,446 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.405 seconds (JVM running for 11.023)
+2020-09-18 20:28:07,338 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 10852 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
+2020-09-18 20:28:07,344 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
+2020-09-18 20:28:07,345 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
+2020-09-18 20:28:15,728 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.186 seconds (JVM running for 10.786)
