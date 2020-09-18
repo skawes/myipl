@@ -17,7 +17,7 @@
 		<file>${LOGS}/myipl.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+			<Pattern>%d %p %C{1.} %m%n</Pattern>
 		</encoder>
 
 		<rollingPolicy
