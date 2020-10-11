@@ -1,27 +1,4 @@
-2020-09-18 17:54:28,069 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 10276 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
-2020-09-18 17:54:28,075 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
-2020-09-18 17:54:28,076 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
-2020-09-18 17:54:36,474 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.232 seconds (JVM running for 10.902)
-2020-09-18 17:54:44,740 INFO com.myipl.controller.AdminController [http-nio-8080-exec-2] All the caches evicted
-2020-09-18 20:20:22,851 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 9704 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
-2020-09-18 20:20:22,857 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
-2020-09-18 20:20:22,858 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
-2020-09-18 20:20:31,446 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.405 seconds (JVM running for 11.023)
-2020-09-18 20:28:07,338 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 10852 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
-2020-09-18 20:28:07,344 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
-2020-09-18 20:28:07,345 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
-2020-09-18 20:28:15,728 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.186 seconds (JVM running for 10.786)
-2020-09-18 20:48:30,907 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 9152 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
-2020-09-18 20:48:30,913 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
-2020-09-18 20:48:30,914 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
-2020-09-18 20:48:39,695 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.616 seconds (JVM running for 11.294)
-2020-09-18 20:50:52,061 INFO org.springframework.boot.StartupInfoLogger [main] Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 5544 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
-2020-09-18 20:50:52,066 DEBUG org.springframework.boot.StartupInfoLogger [main] Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
-2020-09-18 20:50:52,067 INFO org.springframework.boot.SpringApplication [main] The following profiles are active: prod
-2020-09-18 20:51:00,577 INFO org.springframework.boot.StartupInfoLogger [main] Started MyiplApplication in 9.313 seconds (JVM running for 10.961)
-2020-09-18 20:51:34,541 INFO com.myipl.controller.PlayerController [http-nio-8080-exec-10] Prediction saved awes
-2020-09-18 20:55:06,109 INFO org.springframework.boot.StartupInfoLogger Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 4304 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
-2020-09-18 20:55:06,116 DEBUG org.springframework.boot.StartupInfoLogger Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-SNAPSHOT
-2020-09-18 20:55:06,116 INFO org.springframework.boot.SpringApplication The following profiles are active: prod
-2020-09-18 20:55:16,699 INFO org.springframework.boot.StartupInfoLogger Started MyiplApplication in 11.614 seconds (JVM running for 13.553)
-2020-09-18 20:55:47,559 INFO com.myipl.controller.PlayerController Prediction saved awes
+2020-10-12 00:21:59,865 INFO org.springframework.boot.StartupInfoLogger Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 7064 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
+2020-10-12 00:21:59,880 DEBUG org.springframework.boot.StartupInfoLogger Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-RC1
+2020-10-12 00:21:59,881 INFO org.springframework.boot.SpringApplication The following profiles are active: prod
+2020-10-12 00:22:14,913 INFO org.springframework.boot.StartupInfoLogger Started MyiplApplication in 16.299 seconds (JVM running for 21.603)

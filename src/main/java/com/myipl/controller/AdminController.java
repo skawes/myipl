@@ -44,7 +44,7 @@ public class AdminController {
 	@Autowired
 	private CacheManager cacheManager;
 
-	@ApiOperation(value = "Save winners for the day,enter the match date in yyyy-mm-dd")
+	@ApiOperation(value = "This api computes leaderboard and should be called after 12:00, Save winners for the day,enter the match date in yyyy-mm-dd")
 	@PostMapping(value = "/saveIPLMatchWinner", produces = "application/json")
 	@CacheEvict(value = "scheduler", allEntries = true)
 	public APIReponse saveIPLMatchWinner(@RequestBody IPLMatchWinnerRequest iplMatchWinnerRequest) {

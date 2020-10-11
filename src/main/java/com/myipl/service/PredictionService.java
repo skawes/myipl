@@ -101,7 +101,11 @@ public class PredictionService {
 					predictionDetail.setMatch1(String.valueOf(detail[1]));
 				if (detail[2] != null)
 					predictionDetail.setMatch2(String.valueOf(detail[2]));
-				predictions.add(predictionDetail);
+				if (predictionDetail.getUserId().equals(userId)) {
+					predictions.add(0, predictionDetail);
+				} else {
+					predictions.add(predictionDetail);
+				}
 			}
 			response.setPredictions(predictions);
 		} catch (RuntimeException e) {
