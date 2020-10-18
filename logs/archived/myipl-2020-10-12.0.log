@@ -1,0 +1,4 @@
+2020-10-12 00:21:59,865 INFO org.springframework.boot.StartupInfoLogger Starting MyiplApplication using Java 1.8.0_141 on STSPC123 with PID 7064 (E:\myipl_workspace\myipl\target\classes started by awes.shaikh in E:\myipl_workspace\myipl)
+2020-10-12 00:21:59,880 DEBUG org.springframework.boot.StartupInfoLogger Running with Spring Boot v2.4.0-SNAPSHOT, Spring v5.3.0-RC1
+2020-10-12 00:21:59,881 INFO org.springframework.boot.SpringApplication The following profiles are active: prod
+2020-10-12 00:22:14,913 INFO org.springframework.boot.StartupInfoLogger Started MyiplApplication in 16.299 seconds (JVM running for 21.603)

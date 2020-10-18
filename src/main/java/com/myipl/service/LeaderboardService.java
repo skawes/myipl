@@ -1,5 +1,6 @@
 package com.myipl.service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -45,6 +46,7 @@ public class LeaderboardService {
 		IPLLeaderBoardResponse response = null;
 		try {
 			response = new IPLLeaderBoardResponse();
+			DecimalFormat decimalFormat=new DecimalFormat("##.##");
 			List<LeaderBoardDetail> leaderBoardDetails = new ArrayList<LeaderBoardDetail>();
 			List<String[]> leaderBoardDetailsFromDb = playerRepository.getLeaderBoardDetailForGroup(userId);
 			int rank = 1;
@@ -52,7 +54,7 @@ public class LeaderboardService {
 				LeaderBoardDetail leaderBoardDetail = new LeaderBoardDetail();
 				leaderBoardDetail.setRank(rank);
 				leaderBoardDetail.setUserId(detail[0]);
-				leaderBoardDetail.setPoints(Double.valueOf(detail[1]));
+				leaderBoardDetail.setPoints(Double.valueOf(decimalFormat.format(Double.valueOf(detail[1]))));
 				leaderBoardDetails.add(leaderBoardDetail);
 				rank++;
 			}
